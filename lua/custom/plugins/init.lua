@@ -9,9 +9,7 @@ return {
 
   {
     'ojroques/nvim-bufbar',
-    config = function()
-      require('bufbar').setup()
-    end
+    config = function() require('bufbar').setup() end
   },
 
   {
