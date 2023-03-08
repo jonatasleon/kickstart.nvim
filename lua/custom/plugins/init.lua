@@ -61,7 +61,7 @@ return {
     config = function()
       require("auto-session").setup {
         log_level = "error",
-        auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/", "~/Workspace" },
+        auto_session_suppress_dirs = { "~/", "~/Workspace", "~/Downloads", "/" },
       }
     end
   },
