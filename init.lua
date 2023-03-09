@@ -380,6 +380,13 @@ vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnos
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
+-- Usual keymaps
+vim.keymap.set('n', '<C-f>', ":Format<CR>", { desc = '[F]ormat buffer with LSP' })
+vim.keymap.set('n', '<C-s>', ":w<CR>", { desc = '[S]ave buffer' })
+vim.keymap.set('n', '<C-q>', ":bd<CR>", { desc = '[Q]uit buffer' })
+vim.keymap.set('n', '<leader>n', ':bnext<CR>', { desc = '[N]ext buffer' })
+vim.keymap.set('n', '<leader>p', ':bprevious<CR>', { desc = '[P]revious buffer' })
+
 -- LSP settings.
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
