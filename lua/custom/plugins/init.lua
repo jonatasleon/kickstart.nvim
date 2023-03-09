@@ -47,8 +47,12 @@ return {
   },
 
   {
-    "windwp/nvim-autopairs",
-    config = function() require("nvim-autopairs").setup() end
+    'akinsho/bufferline.nvim',
+    tag = 'v3.*',
+    dependencies = {
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function() require('bufferline').setup() end,
   },
 
   {
