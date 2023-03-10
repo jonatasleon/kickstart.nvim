@@ -8,11 +8,6 @@ return {
   'folke/zen-mode.nvim',
 
   {
-    'ojroques/nvim-bufbar',
-    config = function() require('bufbar').setup() end
-  },
-
-  {
     'nvim-tree/nvim-tree.lua',
     dependencies = {
       'nvim-tree/nvim-web-devicons',
