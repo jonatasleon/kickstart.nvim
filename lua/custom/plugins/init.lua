@@ -7,6 +7,167 @@ return {
   'github/copilot.vim',
   'folke/zen-mode.nvim',
 
+  -- Git related plugins
+  'tpope/vim-fugitive',
+  'tpope/vim-rhubarb',
+
+  -- Detect tabstop and shiftwidth automatically
+  'tpope/vim-sleuth',
+
+  -- NOTE: This is where your plugins related to LSP can be installed.
+  --  The configuration is done below. Search for lspconfig to find it below.
+  {
+    -- LSP Configuration & Plugins
+    'neovim/nvim-lspconfig',
+    dependencies = {
+      -- Automatically install LSPs to stdpath for neovim
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
+
+      -- Useful status updates for LSP
+      -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
+      { 'j-hui/fidget.nvim', opts = {} },
+
+      -- Additional lua configuration, makes nvim stuff amazing!
+      'folke/neodev.nvim',
+    },
+  },
+
+  {
+    -- Autocompletion
+    'hrsh7th/nvim-cmp',
+    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+  },
+
+  -- Useful plugin to show you pending keybinds.
+  { 'folke/which-key.nvim',          opts = {} },
+  {
+    -- Adds git releated signs to the gutter, as well as utilities for managing changes
+    'lewis6991/gitsigns.nvim',
+    opts = {
+      -- See `:help gitsigns.txt`
+      signs = {
+        add = { text = '+' },
+        change = { text = '~' },
+        delete = { text = '_' },
+        topdelete = { text = '‾' },
+        changedelete = { text = '~' },
+      },
+    },
+    config = function()
+      require('gitsigns').setup {
+        on_attach = function(bufnr)
+          local gs = package.loaded.gitsigns
+
+          local function map(mode, l, r, opts)
+            opts = opts or {}
+            opts.buffer = bufnr
+            vim.keymap.set(mode, l, r, opts)
+          end
+
+          -- Navigation
+          map('n', ']g', function()
+            if vim.wo.diff then return ']g' end
+            vim.schedule(function()
+              gs.next_hunk()
+              vim.cmd 'normal! zz'
+            end)
+            return '<Ignore>'
+          end, { expr = true, desc = 'Go to next hunk' })
+
+          map('n', '[g', function()
+            if vim.wo.diff then return '[g' end
+            vim.schedule(function()
+              gs.preview_hunk()
+              vim.cmd 'normal! zz'
+            end)
+            return '<Ignore>'
+          end, { expr = true, desc = 'Go to previous hunk' })
+
+          -- Actions
+          map({ 'n', 'v' }, '<leader>hs', ':Gitsigns stage_hunk<CR>', { desc = 'Stage hunk' })
+          map({ 'n', 'v' }, '<leader>hr', ':Gitsigns reset_hunk<CR>', { desc = 'Reset hunk' })
+          map('n', '<leader>hB', gs.stage_buffer, { desc = 'Stage buffer' })
+          map('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'Undo stage hunk' })
+          map('n', '<leader>hR', gs.reset_buffer, { desc = 'Reset buffer' })
+          map('n', '<leader>hp', gs.preview_hunk, { desc = 'Preview hunk' })
+          map('n', '<leader>hb', function() gs.blame_line { full = true } end, { desc = 'Blame line' })
+          map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'Toggle blame' })
+          map('n', '<leader>hd', gs.diffthis, { desc = 'Diff this' })
+          map('n', '<leader>hD', function() gs.diffthis('~') end, { desc = 'Diff this (cached)' })
+          map('n', '<leader>td', gs.toggle_deleted, { desc = 'Toggle deleted' })
+
+          -- Text objects
+          map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'Select hunk' })
+        end
+      }
+    end
+  },
+
+  {
+    -- Theme inspired by Atom
+    'navarasu/onedark.nvim',
+    priority = 1000,
+    config = function()
+      vim.cmd.colorscheme 'onedark'
+    end,
+  },
+
+  {
+    -- Set lualine as statusline
+    'nvim-lualine/lualine.nvim',
+    -- See `:help lualine.txt`
+    opts = {
+      options = {
+        icons_enabled = false,
+        theme = 'onedark',
+        component_separators = '|',
+        section_separators = '',
+      },
+    },
+  },
+
+  {
+    -- Add indentation guides even on blank lines
+    'lukas-reineke/indent-blankline.nvim',
+    -- Enable `lukas-reineke/indent-blankline.nvim`
+    -- See `:help indent_blankline.txt`
+    opts = {
+      char = '┊',
+      show_trailing_blankline_indent = false,
+    },
+  },
+
+  -- "gc" to comment visual regions/lines
+  { 'numToStr/Comment.nvim',         opts = {} },
+
+  -- Fuzzy Finder (files, lsp, etc)
+  { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
+
+  -- Fuzzy Finder Algorithm which requires local dependencies to be built.
+  -- Only load if `make` is available. Make sure you have the system
+  -- requirements installed.
+  {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    -- NOTE: If you are having trouble with this installation,
+    --       refer to the README for telescope-fzf-native for more instructions.
+    build = 'make',
+    cond = function()
+      return vim.fn.executable 'make' == 1
+    end,
+  },
+
+  {
+    -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    config = function()
+      pcall(require('nvim-treesitter.install').update { with_sync = true })
+    end,
+  },
+
   {
     'nvim-tree/nvim-tree.lua',
     dependencies = {
