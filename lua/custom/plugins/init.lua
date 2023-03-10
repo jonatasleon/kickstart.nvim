@@ -69,4 +69,12 @@ return {
       }
     end
   },
+
+  {
+    "dpayne/CodeGPT.nvim",
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+    }
+  },
 }
