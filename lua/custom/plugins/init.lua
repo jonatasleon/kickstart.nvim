@@ -232,7 +232,7 @@ return {
 
   {
     'akinsho/bufferline.nvim',
-    tag = 'v3.*',
+    version = 'v3.*',
     dependencies = {
       'nvim-tree/nvim-web-devicons',
     },
