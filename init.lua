@@ -265,9 +265,11 @@ local on_attach = function(_, bufnr)
   end, '[W]orkspace [L]ist Folders')
 
   -- Create a command `:Format` local to the LSP buffer
+  -- And add a keymap to format the buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)
     vim.lsp.buf.format()
   end, { desc = 'Format current buffer with LSP' })
+  nmap('<C-f>', ':Format<CR>', '[F]ormat')
 end
 
 -- Enable the following language servers
