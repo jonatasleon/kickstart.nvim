@@ -3,10 +3,6 @@
 --
 -- See the kickstart.nvim README for more information
 return {
-  'danilamihailov/beacon.nvim',
-  'github/copilot.vim',
-  'folke/zen-mode.nvim',
-
   -- Git related plugins
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
