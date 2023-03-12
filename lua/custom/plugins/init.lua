@@ -237,6 +237,8 @@ return {
     end,
   },
 
+  { 'echasnovski/mini.nvim', version = '*' },
+
   {
     'akinsho/bufferline.nvim',
     version = 'v3.*',
@@ -267,5 +269,14 @@ return {
       "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
     }
+  },
+
+  {
+    'simrat39/rust-tools.nvim',
+    dependencies = {
+      'neovim/nvim-lspconfig',
+      'nvim-lua/plenary.nvim',
+      'mfussenegger/nvim-dap',
+    },
   },
 }
