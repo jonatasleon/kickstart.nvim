@@ -153,7 +153,7 @@ vim.keymap.set('n', '<leader>e', require('nvim-tree').focus, { desc = 'Focus fil
 -- See `:help nvim-treesitter`
 require('nvim-treesitter.configs').setup {
   -- Add languages to be installed here that you want installed for treesitter
-  ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim', 'toml' },
+  ensure_installed = { 'lua', 'python', 'rust', 'tsx', 'typescript', 'help', 'vim', 'toml' },
 
   -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
   auto_install = false,
