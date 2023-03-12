@@ -83,7 +83,10 @@ vim.o.timeout = true
 vim.o.timeoutlen = 300
 
 -- Set completeopt to have a better completion experience
-vim.o.completeopt = 'menuone,noselect'
+vim.o.completeopt = 'menuone,noinsert,noselect'
+
+-- Avoid showing extra message when using completion
+vim.o.shortmess = vim.o.shortmess .. 'c'
 
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
