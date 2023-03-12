@@ -17,7 +17,29 @@ return {
   -- Miscellaneous plugins
   'danilamihailov/beacon.nvim',
   'github/copilot.vim',
-  'folke/zen-mode.nvim',
+
+  {
+    'folke/twilight.nvim',
+    config = function() require('twilight').setup() end,
+  },
+
+  {
+    'folke/zen-mode.nvim',
+    config = function()
+      require('zen-mode').setup {
+        plugins = {
+          gitsigns = { enabled = true },
+          twilight = { enabled = true },
+        },
+        on_open = function(_)
+          vim.o.number = false
+        end,
+        on_close = function()
+          vim.o.number = true
+        end,
+      }
+    end,
+  },
 
   -- NOTE: This is where your plugins related to LSP can be installed.
   --  The configuration is done below. Search for lspconfig to find it below.
