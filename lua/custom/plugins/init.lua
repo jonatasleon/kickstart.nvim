@@ -16,7 +16,9 @@ return {
 
   {
     'folke/twilight.nvim',
-    config = function() require('twilight').setup() end,
+    config = function()
+      require('twilight').setup()
+    end,
   },
 
   {
@@ -69,10 +71,17 @@ return {
     },
   },
 
+  {
+    'jose-elias-alvarez/null-ls.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+    },
+  },
+
   -- Useful plugin to show you pending keybinds.
   {
     'folke/which-key.nvim',
-    opts = {}
+    opts = {},
   },
 
   -- Adds git releated signs to the gutter, as well as utilities for managing changes
@@ -101,7 +110,9 @@ return {
 
           -- Navigation
           map('n', ']g', function()
-            if vim.wo.diff then return ']g' end
+            if vim.wo.diff then
+              return ']g'
+            end
             vim.schedule(function()
               gs.next_hunk()
               vim.cmd 'normal! zz'
@@ -110,7 +121,9 @@ return {
           end, { expr = true, desc = 'Go to next hunk' })
 
           map('n', '[g', function()
-            if vim.wo.diff then return '[g' end
+            if vim.wo.diff then
+              return '[g'
+            end
             vim.schedule(function()
               gs.preview_hunk()
               vim.cmd 'normal! zz'
@@ -125,18 +138,22 @@ return {
           map('n', '<leader>hu', gs.undo_stage_hunk, { desc = 'Undo stage hunk' })
           map('n', '<leader>hR', gs.reset_buffer, { desc = 'Reset buffer' })
           map('n', '<leader>hp', gs.preview_hunk, { desc = 'Preview hunk' })
-          map('n', '<leader>hb', function() gs.blame_line { full = true } end, { desc = 'Blame line' })
+          map('n', '<leader>hb', function()
+            gs.blame_line { full = true }
+          end, { desc = 'Blame line' })
           map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'Toggle blame' })
           map('n', '<leader>hd', gs.diffthis, { desc = 'Diff this' })
-          map('n', '<leader>hD', function() gs.diffthis('~') end, { desc = 'Diff this (cached)' })
+          map('n', '<leader>hD', function()
+            gs.diffthis '~'
+          end, { desc = 'Diff this (cached)' })
           map('n', '<leader>td', gs.toggle_deleted, { desc = 'Toggle deleted' })
-          map('n', '<leader>C', ":10new|:terminal ai-commit<CR>i", { desc = 'Commit' })
+          map('n', '<leader>C', ':10new|:terminal ai-commit<CR>i', { desc = 'Commit' })
 
           -- Text objects
           map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'Select hunk' })
-        end
+        end,
       }
-    end
+    end,
   },
 
   {
@@ -174,7 +191,7 @@ return {
   },
 
   -- "gc" to comment visual regions/lines
-  { 'numToStr/Comment.nvim',         opts = {} },
+  { 'numToStr/Comment.nvim', opts = {} },
 
   -- Fuzzy Finder (files, lsp, etc)
   { 'nvim-telescope/telescope.nvim', version = '*', dependencies = { 'nvim-lua/plenary.nvim' } },
@@ -210,7 +227,7 @@ return {
     },
     config = function()
       require('nvim-tree').setup {
-        sort_by = "case_sensitive",
+        sort_by = 'case_sensitive',
         renderer = {
           group_empty = true,
         },
@@ -218,16 +235,16 @@ return {
           dotfiles = true,
         },
       }
-    end
+    end,
   },
 
   {
-    "max397574/better-escape.nvim",
+    'max397574/better-escape.nvim',
     config = function()
-      require("better_escape").setup {
-        mapping = { "jk", "kj" },   -- a table with mappings to use
+      require('better_escape').setup {
+        mapping = { 'jk', 'kj' }, -- a table with mappings to use
         timeout = vim.o.timeoutlen, -- the time in which the keys must be hit in ms. Use option timeoutlen by default
-        clear_empty_lines = false,  -- clear line after escaping if there is only whitespace
+        clear_empty_lines = false, -- clear line after escaping if there is only whitespace
         -- keys = "<Esc>", -- keys used for escaping, if it is a function will use the result everytime
         -- example(recommended)
         keys = function()
@@ -245,30 +262,34 @@ return {
     dependencies = {
       'nvim-tree/nvim-web-devicons',
     },
-    config = function() require('bufferline').setup() end,
+    config = function()
+      require('bufferline').setup()
+    end,
   },
 
   {
-    "aserowy/tmux.nvim",
-    config = function() return require("tmux").setup() end
+    'aserowy/tmux.nvim',
+    config = function()
+      return require('tmux').setup()
+    end,
   },
 
   {
     'rmagatti/auto-session',
     config = function()
-      require("auto-session").setup {
-        log_level = "error",
-        auto_session_suppress_dirs = { "~/", "~/Workspace", "~/Downloads", "/" },
+      require('auto-session').setup {
+        log_level = 'error',
+        auto_session_suppress_dirs = { '~/', '~/Workspace', '~/Downloads', '/' },
       }
-    end
+    end,
   },
 
   {
-    "dpayne/CodeGPT.nvim",
+    'dpayne/CodeGPT.nvim',
     dependencies = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-    }
+      'MunifTanjim/nui.nvim',
+      'nvim-lua/plenary.nvim',
+    },
   },
 
   {
@@ -278,5 +299,20 @@ return {
       'nvim-lua/plenary.nvim',
       'mfussenegger/nvim-dap',
     },
+    config = function()
+      require('rust-tools').setup {}
+      require('rust-tools').lsp.start_standalone_if_required()
+    end,
   },
+
+  {
+    'saecki/crates.nvim',
+    version = 'v0.3.0',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    config = function()
+      require('crates').setup()
+    end,
+  },
+
+  { 'akinsho/toggleterm.nvim', version = '*', config = true },
 }
