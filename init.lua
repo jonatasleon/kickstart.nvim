@@ -216,14 +216,15 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 
 -- Usual keymaps
-vim.keymap.set('n', '<C-s>', ":w<CR>", { desc = '[S]ave buffer' })
-vim.keymap.set('n', '<C-q>', ":bd<CR>", { desc = '[Q]uit buffer', silent = true })
+vim.keymap.set('n', '<C-s>', ':w<CR>', { desc = '[S]ave buffer' })
+vim.keymap.set('i', '<C-s>', '<C-o>:w<CR>', { desc = '[S]ave buffer' })
+vim.keymap.set('n', '<C-q>', ':bd<CR>', { desc = '[Q]uit buffer', silent = true })
 vim.keymap.set('n', '<leader>n', ':bnext<CR>', { desc = '[N]ext buffer', silent = true })
 vim.keymap.set('n', '<leader>p', ':bprevious<CR>', { desc = '[P]revious buffer', silent = true })
 
@@ -283,11 +284,12 @@ end
 local servers = {
   pyright = {},
   tsserver = {},
+  bashls = {},
   rust_analyzer = {
     cargo = { allFeatures = true },
     checkOnSave = {
-      command = "cargo clippy",
-      extraArgs = { "--no-deps" },
+      command = 'cargo clippy',
+      extraArgs = { '--no-deps' },
     },
   },
   lua_ls = {
@@ -371,11 +373,28 @@ cmp.setup {
     { name = 'luasnip' },
     { name = 'buffer' },
     { name = 'path' },
+    { name = 'crates' },
   },
 }
 
+-- null-ls setup
+local null_ls = require 'null-ls'
+
+null_ls.setup {
+  sources = {
+    null_ls.builtins.formatting.stylua,
+    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.formatting.eslint_d,
+    null_ls.builtins.formatting.shfmt,
+    null_ls.builtins.formatting.rustfmt,
+    null_ls.builtins.formatting.black,
+    null_ls.builtins.formatting.isort,
+  },
+}
+
+-- nvim-lspconfig setup
 vim.g.copilot_no_tab_map = true
-vim.api.nvim_set_keymap("i", "<C-J>", 'copilot#Accept("<CR>")', { silent = true, expr = true })
+vim.api.nvim_set_keymap('i', '<C-J>', 'copilot#Accept("<CR>")', { silent = true, expr = true })
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
