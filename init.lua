@@ -125,6 +125,35 @@ require('telescope').setup {
   },
 }
 
+-- [[ Configure nvim-tree ]]
+-- See `:help nvim-tree.lua`
+local function tree_on_attach(bufnr)
+  local api = require 'nvim-tree.api'
+
+  local function opts(desc)
+    return { desc = "[nvim-tree] " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
+  end
+
+  api.config.mappings.default_on_attach(bufnr)
+
+  vim.keymap.set('n', '<C-t>', api.tree.change_root_to_parent, opts 'Up')
+  vim.keymap.set('n', '?', api.tree.toggle_help, opts 'Help')
+end
+
+local tree = require 'nvim-tree'
+tree.setup {
+  on_attach = tree_on_attach,
+  sort_by = 'case_sensitive',
+  view = {
+    width = 30,
+    side = 'left',
+  },
+  renderer = {
+    group_empty = true,
+  },
+}
+vim.api.nvim_set_keymap('n', '<C-n>', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
 
@@ -145,9 +174,6 @@ vim.keymap.set('n', '<leader>sw', require('telescope.builtin').grep_string, { de
 vim.keymap.set('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sk', require('telescope.builtin').keymaps, { desc = '[S]earch [K]eymaps' })
-
-vim.keymap.set('n', '<C-n>', require('nvim-tree').toggle, { desc = 'Toggle file explorer' })
-vim.keymap.set('n', '<leader>e', require('nvim-tree').focus, { desc = 'Focus file explorer' })
 
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
